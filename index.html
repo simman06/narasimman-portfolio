@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Narasimman V — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0D1117;--bg2:#161B22;--bg3:#21262D;
+  --border:#30363D;--accent:#58A6FF;--accent2:#3FB950;
+  --text:#E6EDF3;--muted:#8B949E;--dim:#484F58;
+  --red:#FF7B72;--yellow:#E3B341;--purple:#D2A8FF;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;background:rgba(13,17,23,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;padding:0 2rem;}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;}
+.nav-logo{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--accent);font-weight:700;}
+.nav-logo span{color:var(--muted);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.875rem;transition:color 0.2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{background:var(--accent);color:#0D1117;padding:0.4rem 1rem;border-radius:6px;font-size:0.875rem;font-weight:600;text-decoration:none;transition:opacity 0.2s;}
+.nav-cta:hover{opacity:0.85;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:5rem 2rem 3rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(88,166,255,0.06) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;}
+.hero-tag{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(88,166,255,0.1);border:1px solid rgba(88,166,255,0.2);color:var(--accent);padding:0.3rem 0.8rem;border-radius:20px;font-size:0.8rem;font-family:'JetBrains Mono',monospace;margin-bottom:1.5rem;}
+.hero-tag::before{content:'';width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+h1.hero-name{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:600;line-height:1.1;margin-bottom:1rem;letter-spacing:-0.02em;}
+h1.hero-name .line2{color:var(--accent);}
+.hero-desc{font-size:1.1rem;color:var(--muted);max-width:560px;margin-bottom:2rem;line-height:1.8;}
+.hero-desc strong{color:var(--text);}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{background:var(--accent);color:#0D1117;padding:0.7rem 1.6rem;border-radius:8px;font-weight:600;text-decoration:none;font-size:0.95rem;transition:transform 0.15s,opacity 0.15s;}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px);}
+.btn-secondary{background:transparent;color:var(--text);padding:0.7rem 1.6rem;border-radius:8px;font-weight:500;text-decoration:none;font-size:0.95rem;border:1px solid var(--border);transition:border-color 0.2s,background 0.2s;}
+.btn-secondary:hover{border-color:var(--accent);background:rgba(88,166,255,0.05);}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);}
+.stat-item .num{font-size:1.8rem;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--accent);}
+.stat-item .label{font-size:0.8rem;color:var(--muted);margin-top:0.1rem;}
+
+/* SECTIONS */
+section{padding:5rem 2rem;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-tag{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--accent);margin-bottom:0.5rem;}
+.section-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:600;margin-bottom:1rem;letter-spacing:-0.02em;}
+.section-sub{color:var(--muted);font-size:1rem;max-width:500px;margin-bottom:3rem;}
+.divider{width:100%;height:1px;background:var(--border);margin:0;}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.about-text p{color:var(--muted);line-height:1.9;margin-bottom:1.2rem;}
+.about-text p strong{color:var(--text);}
+.about-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+.info-row{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--bg3);font-size:0.9rem;}
+.info-row:last-child{border-bottom:none;}
+.info-row .icon{color:var(--accent);font-size:1rem;width:20px;}
+.info-row .key{color:var(--muted);width:90px;flex-shrink:0;}
+.info-row .val{color:var(--text);}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;}
+.skill-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.4rem;transition:border-color 0.2s,transform 0.2s;}
+.skill-card:hover{border-color:var(--accent);transform:translateY(-2px);}
+.skill-card-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.1rem;}
+.skill-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.skill-icon.blue{background:rgba(88,166,255,0.12);color:var(--accent);}
+.skill-icon.green{background:rgba(63,185,80,0.12);color:var(--accent2);}
+.skill-icon.purple{background:rgba(210,168,255,0.12);color:var(--purple);}
+.skill-icon.yellow{background:rgba(227,179,65,0.12);color:var(--yellow);}
+.skill-card h3{font-size:0.95rem;font-weight:600;}
+.skill-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.tag{background:var(--bg3);color:var(--muted);padding:0.25rem 0.6rem;border-radius:5px;font-size:0.78rem;font-family:'JetBrains Mono',monospace;border:1px solid var(--border);}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.4rem;}
+.project-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:border-color 0.2s,transform 0.2s;display:flex;flex-direction:column;}
+.project-card:hover{border-color:var(--accent);transform:translateY(-3px);}
+.project-card.featured{border-color:rgba(88,166,255,0.4);background:rgba(88,166,255,0.03);}
+.project-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;}
+.project-icon{font-size:1.6rem;}
+.project-links{display:flex;gap:0.5rem;}
+.proj-link{color:var(--muted);text-decoration:none;font-size:0.85rem;padding:0.3rem 0.5rem;border:1px solid var(--border);border-radius:6px;transition:color 0.2s,border-color 0.2s;}
+.proj-link:hover{color:var(--accent);border-color:var(--accent);}
+.project-card h3{font-size:1.05rem;font-weight:600;margin-bottom:0.5rem;}
+.project-card p{color:var(--muted);font-size:0.88rem;line-height:1.7;margin-bottom:1.2rem;flex:1;}
+.proj-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:auto;}
+.proj-badge{background:rgba(88,166,255,0.1);color:var(--accent);padding:0.2rem 0.55rem;border-radius:4px;font-size:0.75rem;font-family:'JetBrains Mono',monospace;}
+.proj-badge.green{background:rgba(63,185,80,0.1);color:var(--accent2);}
+.proj-badge.purple{background:rgba(210,168,255,0.1);color:var(--purple);}
+.featured-badge{background:rgba(88,166,255,0.15);color:var(--accent);font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:10px;font-weight:600;border:1px solid rgba(88,166,255,0.3);}
+
+/* EXPERIENCE */
+.timeline{position:relative;padding-left:2rem;}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--border);}
+.timeline-item{position:relative;margin-bottom:2.5rem;}
+.timeline-dot{position:absolute;left:-2.4rem;top:0.3rem;width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);}
+.timeline-date{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted);margin-bottom:0.3rem;}
+.timeline-title{font-size:1.05rem;font-weight:600;margin-bottom:0.2rem;}
+.timeline-company{color:var(--accent);font-size:0.9rem;margin-bottom:0.8rem;}
+.timeline-desc{color:var(--muted);font-size:0.9rem;line-height:1.8;}
+.timeline-desc li{margin-bottom:0.4rem;list-style:none;padding-left:1rem;position:relative;}
+.timeline-desc li::before{content:'›';position:absolute;left:0;color:var(--accent);}
+
+/* EDUCATION */
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;}
+.edu-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.4rem;}
+.edu-card .degree{font-size:0.95rem;font-weight:600;margin-bottom:0.3rem;}
+.edu-card .school{color:var(--accent);font-size:0.88rem;margin-bottom:0.2rem;}
+.edu-card .year{color:var(--muted);font-size:0.8rem;font-family:'JetBrains Mono',monospace;}
+.cgpa-badge{display:inline-block;background:rgba(63,185,80,0.1);color:var(--accent2);border:1px solid rgba(63,185,80,0.2);padding:0.2rem 0.6rem;border-radius:5px;font-size:0.8rem;font-family:'JetBrains Mono',monospace;margin-top:0.5rem;}
+
+/* CERTS */
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+.cert-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.1rem;display:flex;align-items:center;gap:0.8rem;transition:border-color 0.2s;}
+.cert-card:hover{border-color:var(--accent);}
+.cert-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.cert-title{font-size:0.88rem;font-weight:500;line-height:1.4;}
+.cert-by{font-size:0.75rem;color:var(--muted);margin-top:0.15rem;}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+.contact-info p{color:var(--muted);line-height:1.9;margin-bottom:2rem;}
+.contact-links{display:flex;flex-direction:column;gap:0.8rem;}
+.contact-link{display:flex;align-items:center;gap:0.75rem;color:var(--muted);text-decoration:none;font-size:0.9rem;padding:0.8rem 1rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;transition:border-color 0.2s,color 0.2s;}
+.contact-link:hover{border-color:var(--accent);color:var(--text);}
+.contact-link .icon{color:var(--accent);font-size:1rem;}
+.contact-form{display:flex;flex-direction:column;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;}
+.form-group label{font-size:0.82rem;color:var(--muted);}
+.form-group input,.form-group textarea{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:0.7rem 1rem;border-radius:8px;font-size:0.9rem;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent);}
+.form-group textarea{resize:vertical;min-height:120px;}
+.form-submit{background:var(--accent);color:#0D1117;padding:0.75rem;border-radius:8px;font-weight:600;font-size:0.95rem;border:none;cursor:pointer;transition:opacity 0.2s;}
+.form-submit:hover{opacity:0.85;}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--muted);font-size:0.85rem;}
+footer span{color:var(--accent);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .about-grid,.contact-grid{grid-template-columns:1fr;}
+  .hero-stats{gap:1.5rem;}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">&lt;<span>narasimman</span> /&gt;</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="mailto:narasimmanvenkatesan768@gmail.com" class="nav-cta">Hire Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">🟢 Open to opportunities</div>
+    <h1 class="hero-name">
+      Hi, I'm Narasimman V<br>
+      <span class="line2">ECE Engineer</span>
+    </h1>
+    <p class="hero-desc">
+      ECE Graduate from <strong>Anna University</strong> passionate about
+      <strong>Embedded Systems</strong>, <strong>Python Development</strong>,
+      and <strong>AWS Cloud</strong>. I build things that bridge hardware and software.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-secondary">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="num">7.65</div><div class="label">CGPA</div></div>
+      <div class="stat-item"><div class="num">3+</div><div class="label">Certifications</div></div>
+      <div class="stat-item"><div class="num">2+</div><div class="label">Projects</div></div>
+      <div class="stat-item"><div class="num">1</div><div class="label">Internship</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-tag">// 01. about_me</div>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm an <strong>Electronics and Communication Engineering</strong> graduate from Anna University with a passion for building systems that sit at the intersection of hardware and software.</p>
+        <p>During my internship at <strong>Speculation Infotech</strong>, I programmed microcontrollers in C to interface sensors and actuators, giving me real hands-on experience with embedded architectures.</p>
+        <p>I'm now expanding into <strong>Python development</strong> and <strong>AWS cloud</strong>, building projects that demonstrate my ability to deliver end-to-end solutions — from circuit to cloud.</p>
+      </div>
+      <div class="about-card">
+        <div class="info-row"><span class="icon">📍</span><span class="key">Location</span><span class="val">Cuddalore, Tamil Nadu</span></div>
+        <div class="info-row"><span class="icon">🎓</span><span class="key">Degree</span><span class="val">B.E – ECE (2026)</span></div>
+        <div class="info-row"><span class="icon">🏫</span><span class="key">University</span><span class="val">Anna University</span></div>
+        <div class="info-row"><span class="icon">💼</span><span class="key">Status</span><span class="val" style="color:var(--accent2);">Available for hire</span></div>
+        <div class="info-row"><span class="icon">🌐</span><span class="key">Languages</span><span class="val">Tamil, English</span></div>
+        <div class="info-row"><span class="icon">📧</span><span class="key">Email</span><span class="val" style="font-size:0.8rem;">narasimmanvenkatesan768<br>@gmail.com</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-tag">// 02. technical_skills</div>
+    <h2 class="section-title">Skills</h2>
+    <p class="section-sub">Technologies and tools I work with</p>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon blue">🐍</div>
+          <h3>Programming</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">C</span>
+          <span class="tag">C++</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon green">🔌</div>
+          <h3>Embedded & IoT</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Arduino</span>
+          <span class="tag">ESP32</span>
+          <span class="tag">MATLAB</span>
+          <span class="tag">Proteus</span>
+          <span class="tag">Microcontrollers</span>
+          <span class="tag">IR Sensors</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon yellow">☁️</div>
+          <h3>Cloud — AWS</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="tag">EC2</span>
+          <span class="tag">S3</span>
+          <span class="tag">IAM</span>
+          <span class="tag">CloudWatch</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon purple">🛡️</div>
+          <h3>Other</h3>
+        </div>
+        <div class="skill-tags">
+          <span class="tag">Cybersecurity</span>
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">Hardware-SW Integration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-tag">// 03. projects</div>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-sub">Things I've built</p>
+    <div class="projects-grid">
+
+      <div class="project-card featured">
+        <div class="project-top">
+          <span class="project-icon">🚦</span>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="featured-badge">Featured</span>
+            <div class="project-links">
+              <a href="https://github.com/simman06/traffic-signal-simulator" target="_blank" class="proj-link">GitHub ↗</a>
+            </div>
+          </div>
+        </div>
+        <h3>Smart Traffic Signal Simulator</h3>
+        <p>Density-based adaptive traffic control system built in Python with Tkinter. Simulates real-time vehicle density detection and dynamically adjusts signal timing — inspired by my Arduino & IR sensor project.</p>
+        <div class="proj-tags">
+          <span class="proj-badge">Python</span>
+          <span class="proj-badge">Tkinter</span>
+          <span class="proj-badge green">Threading</span>
+          <span class="proj-badge purple">Algorithm</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-top">
+          <span class="project-icon">🔌</span>
+          <div class="project-links">
+            <span class="proj-link" style="cursor:default;border-color:var(--dim);color:var(--dim);">Hardware</span>
+          </div>
+        </div>
+        <h3>Smart Traffic Management (Hardware)</h3>
+        <p>Designed and simulated an intelligent traffic control system using Arduino and IR sensors. Implemented density-based signal algorithm in C and validated using Proteus simulation software.</p>
+        <div class="proj-tags">
+          <span class="proj-badge">Arduino</span>
+          <span class="proj-badge">C</span>
+          <span class="proj-badge green">Proteus</span>
+          <span class="proj-badge purple">IR Sensors</span>
+        </div>
+      </div>
+
+      <div class="project-card" style="border-style:dashed;opacity:0.6;">
+        <div class="project-top">
+          <span class="project-icon">☁️</span>
+        </div>
+        <h3>AWS File Manager</h3>
+        <p>Coming soon — A Python + Boto3 application to upload, list, and manage files on AWS S3. Demonstrates cloud integration and Python scripting skills.</p>
+        <div class="proj-tags">
+          <span class="proj-badge">Python</span>
+          <span class="proj-badge">AWS S3</span>
+          <span class="proj-badge green">Boto3</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-tag">// 04. experience</div>
+    <h2 class="section-title">Experience</h2>
+    <p class="section-sub">Where I've worked and what I've done</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2025</div>
+        <div class="timeline-title">Embedded Systems Intern</div>
+        <div class="timeline-company">Speculation Infotech — Trichy, Tamil Nadu</div>
+        <ul class="timeline-desc">
+          <li>Programmed microcontrollers in C to interface sensors and actuators, enabling real-time hardware-software control</li>
+          <li>Worked with embedded architectures including memory management, registers, and I/O peripherals on ARM-based controllers</li>
+          <li>Tested and debugged hardware-software modules, identifying firmware issues and improving system reliability</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="section-tag">// 05. education</div>
+    <h2 class="section-title">Education</h2>
+    <p class="section-sub">My academic background</p>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div style="font-size:2rem;margin-bottom:0.8rem;">🎓</div>
+        <div class="degree">B.E – Electronics & Communication Engineering</div>
+        <div class="school">Anna University, Dindigul, Tamil Nadu</div>
+        <div class="year">2022 – 2026</div>
+        <div class="cgpa-badge">CGPA: 7.65</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:3rem;margin-bottom:1.5rem;font-size:1.2rem;color:var(--muted);font-weight:500;">Certifications</h3>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <div class="cert-icon" style="background:rgba(227,179,65,0.12);">☁️</div>
+        <div><div class="cert-title">AWS Skill Builder</div><div class="cert-by">Amazon Web Services</div></div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon" style="background:rgba(88,166,255,0.12);">🛡️</div>
+        <div><div class="cert-title">Cybersecurity Essentials</div><div class="cert-by">Cisco Networking Academy</div></div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon" style="background:rgba(210,168,255,0.12);">💼</div>
+        <div><div class="cert-title">Cyber Job Simulation</div><div class="cert-by">Deloitte</div></div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon" style="background:rgba(63,185,80,0.12);">🗣️</div>
+        <div><div class="cert-title">Soft Skills Development</div><div class="cert-by">TCS iON</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-tag">// 06. contact</div>
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>I'm currently looking for entry-level opportunities in Python Development, Embedded Systems, IoT, or Cloud. If you have a role that fits, I'd love to hear from you!</p>
+        <div class="contact-links">
+          <a href="mailto:narasimmanvenkatesan768@gmail.com" class="contact-link">
+            <span class="icon">📧</span> narasimmanvenkatesan768@gmail.com
+          </a>
+          <a href="https://linkedin.com/in/narasimman-venkatesan-995a0929b" target="_blank" class="contact-link">
+            <span class="icon">💼</span> LinkedIn Profile
+          </a>
+          <a href="https://github.com/simman06" target="_blank" class="contact-link">
+            <span class="icon">🐙</span> github.com/simman06
+          </a>
+          <a href="https://simman06.github.io/github-portfolio/" target="_blank" class="contact-link">
+            <span class="icon">🌐</span> Portfolio Website
+          </a>
+          <a href="tel:+918754824625" class="contact-link">
+            <span class="icon">📞</span> +91 87548 24625
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="contact-form">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="john@company.com">
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Hi Narasimman, I'd like to discuss..."></textarea>
+          </div>
+          <button class="form-submit" onclick="alert('Thanks for reaching out! Please email me directly at narasimmanvenkatesan768@gmail.com')">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Designed & Built by <span>Narasimman V</span> · 2026</p>
+  <p style="margin-top:0.4rem;font-size:0.78rem;">Open to Python Developer · Embedded Systems · IoT · Cloud roles</p>
+</footer>
+
+</body>
+</html>
